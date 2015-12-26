@@ -1,0 +1,7 @@
+{{yield}}
+<div class="form-actions">
+  <button type="submit" class="{{submitButtonClass}}">{{submitText}}</button>
+  {{#if cancelText}}
+    <a class="{{cancelButtonClass}}" {{action "cancel"}}> {{cancelText}}</a>
+  {{/if}}
+</div>

@@ -2,6 +2,7 @@
   "predef": [
     "document",
     "window",
+    "mocha",
     "location",
     "setTimeout",
     "$",
@@ -23,10 +24,10 @@
     "currentPath",
     "currentRouteName"
   ],
-  "node": false,
-  "browser": false,
-  "boss": true,
-  "curly": true,
+  "node" : false,
+  "browser" : false,
+  "boss" : true,
+  "curly": false,
   "debug": false,
   "devel": false,
   "eqeqeq": true,
@@ -48,5 +49,5 @@
   "white": false,
   "eqnull": true,
   "esnext": true,
-  "unused": true
+  "expr": true
 }
