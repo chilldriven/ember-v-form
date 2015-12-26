@@ -1,10 +1,11 @@
 import Ember from 'ember';
-import _ from 'lodash/lodash';
+import _ from 'lodash';
 
 export default Ember.Component.extend({
   tagName: 'form',
   class: 'form-horizontal',
   classNameBindings: ['class'],
+  attributeBindings: ['action'],
   properties: [],
   action: 'submit',
   submitButtonClass: 'btn btn-primary',
@@ -29,7 +30,11 @@ export default Ember.Component.extend({
     return _.get(errorObject, 'message[0]', '');
   },
 
-  submit() {
+  submit(e) {
+    if (e) {
+      e.preventDefault();
+    }
+
     const bool = this.get('model').validate(),
     errors = this.get('model.errors.content');
     if (bool) return this.sendAction('submitAction');
