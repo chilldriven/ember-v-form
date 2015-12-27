@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
     tagName: 'form',
-    classNames: ['form-horizontal'],
+    class: 'form-horizontal',
     classNameBindings: ['class'],
     attributeBindings: ['action'],
     properties: Ember.A([]),

@@ -2,14 +2,18 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
     tagName: 'div',
-    class: ['form-group'],
-    classNameBindings: ['class', 'hasError'],
+    class: 'form-group',
+    errorClass: 'has-error',
+    classNameBindings: ['class', 'error'],
     property: '',
     pid: Ember.computed('property', function() {
         if (this.get('property')) return `v-form-group#${this.get('property')}`;
     }),
+    error: Ember.computed('message', function() {
+        if (this.get('message')) return this.get('errorClass');
+    }),
     valid: Ember.computed.not('message'),
-    hasError: Ember.computed.bool('message'),
+    inValid: Ember.computed.bool('message'),
     didInsertElement() {
         const html  = Ember.$(this.element),
               input = Ember.$('input, textarea, select', html),
