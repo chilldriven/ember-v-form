@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/cataline/ember-v-form.svg?branch=master)](https://travis-ci.org/cataline/ember-v-form)
-# ember-v-form
+# ember-v-form [![Build Status](https://travis-ci.org/cataline/ember-v-form.svg?branch=master)](https://travis-ci.org/cataline/ember-v-form)
 
 A simple and highly customizable form validation addon, built on top of [ember-model-validator](https://github.com/esbanarango/ember-model-validator).
 
