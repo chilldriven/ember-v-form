@@ -1,7 +1,10 @@
 {
-  "preset": "airbnb",
-  "esnext": true,
-  "requireCamelCaseOrUpperCaseIdentifiers": false,
-  "disallowMultipleVarDecl": false,
-  "disallowSpacesInsideParentheses": false
+    "preset": "google",
+    "esnext": true,
+    "validateLineBreaks": "LF",
+    "validateIndentation": 4,
+    "disallowTrailingComma": true,
+    "requireCurlyBraces": false,
+    "disallowMultipleVarDecl": false,
+    "disallowVar": true,
 }

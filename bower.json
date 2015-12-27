@@ -12,6 +12,7 @@
     "jquery": "^2.1.4",
     "loader.js": "ember-cli/loader.js#3.5.0",
     "qunit": "~1.20.0",
+    "lodash": "~3.10.1",
     "ember-mocha": "~0.8.8"
   }
 }
