@@ -127,8 +127,8 @@ describeComponent(
                   expect(this.component.get('message')).to.not.be.ok;
               });
 
-              it('has hasError property set to false', function() {
-                  expect(this.component.get('hasError')).to.not.be.ok;
+              it('has "error" property set to false', function() {
+                  expect(this.component.get('error')).to.not.be.ok;
 
               });
 
@@ -144,8 +144,8 @@ describeComponent(
                   expect(this.component.get('message')).to.equal('name');
               });
 
-              it('has hasError property set to true', function() {
-                  expect(this.component.get('hasError')).to.be.ok;
+              it('has "error" property set to true', function() {
+                  expect(this.component.get('error')).to.be.ok;
               });
 
           });
