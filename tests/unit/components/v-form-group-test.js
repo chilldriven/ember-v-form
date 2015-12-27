@@ -14,7 +14,10 @@ describeComponent(
       describe('rendering', function() {
           beforeEach(function() {
               this.component = this.subject({
-                  parentView: Ember.Object.create({properties: []})
+                  property: 'name',
+                  parentView: Ember.Object.create({
+                      properties: Ember.A([])
+                  })
               });
               expect(this.component._state).to.equal('preRender');
               this.render();
@@ -25,12 +28,78 @@ describeComponent(
               expect(this.component._state).to.equal('inDOM');
               expect(this.element.hasClass('form-group')).to.be.ok;
           });
+      });
+
+      describe('property assignment', function() {
+          beforeEach(function() {
+
+          });
 
           it('pushes its id and property name to parentView', function() {
-              expect(this.component.get('parentView.properties')[0].id)
-                .to.equal(this.component.get('elementId'));
+              this.component = this.subject({
+                  property: 'name',
+                  parentView: Ember.Object.create({
+                      properties: Ember.A([]),
+                      model: Ember.Object.create({name: ''})
+                  })
+              });
+              this.render();
+
+              expect(this.component.get('parentView.properties')[0].pid)
+                .to.equal(this.component.get('pid'));
               expect(this.component.get('parentView.properties')[0].properties)
                 .to.include(this.component.get('property'));
+          });
+
+          it('creates an observer on its property in parentView', function() {
+              this.component = this.subject({
+                  property: 'password',
+                  parentView: Ember.Object.create({
+                      properties: Ember.A([]),
+                      model: Ember.Object.create({password: ''})
+                  })
+              });
+              this.render();
+
+              expect(this.component.get('parentView').hasObserverFor('model.password'))
+                .to.be.ok;
+          });
+
+          it('assigns observers on multiple properties', function() {
+              this.component = this.subject({
+                  property: '[password, passwordConfirmation]',
+                  parentView: Ember.Object.create({
+                      properties: Ember.A([]),
+                      model: Ember.Object.create({
+                          password: '',
+                          passwordConfirmation: ''
+                      })
+                  })
+              });
+              this.render();
+              const parentView = this.component.get('parentView'),
+                    checks = [
+                        'password',
+                        'passwordConfirmation'
+                    ].map(p => parentView.hasObserverFor(`model.${p}`));
+              expect(checks.every(c => c)).to.be.ok;
+          });
+
+          it('assigns observers on nested multiple properties', function() {
+              this.component = this.subject({
+                  property: 'address.[country, city]',
+                  parentView: Ember.Object.create({
+                      properties: Ember.A([]),
+                      model: Ember.Object.create({address: {}})
+                  })
+              });
+              this.render();
+              const parentView = this.component.get('parentView'),
+                    checks = [
+                        'address.country',
+                        'address.city'
+                    ].map(p => parentView.hasObserverFor(`model.${p}`));
+              expect(checks.every(c => c)).to.be.ok;
           });
       });
 
@@ -38,20 +107,19 @@ describeComponent(
           beforeEach(function() {
               this.component = this.subject({
                   parentView: Ember.Object.create({
-                      properties: [],
+                      properties: Ember.A([]),
                       model: Ember.Object.create({
                           name: ''
                       })
                   }),
                   property: 'name'
               });
-              expect(this.component._state).to.equal('preRender');
+              this.render();
           });
 
-          describe('if a field is valid', function() {
+          describe('if field is valid', function() {
               beforeEach(function() {
                   this.component.parentView.validateProperty = _ => {};
-                  this.render();
                   Ember.run(() => this.component.revalidate());
               });
 
@@ -59,17 +127,16 @@ describeComponent(
                   expect(this.component.get('message')).to.not.be.ok;
               });
 
-              it('doesn\'t have "has-error" class', function() {
-                  const element = Ember.$(this.component.element);
-                  expect(element.hasClass('has-error')).not.to.be.ok;
+              it('has hasError property set to false', function() {
+                  expect(this.component.get('hasError')).to.not.be.ok;
+
               });
 
           });
 
-          describe('if a field is invalid', function() {
+          describe('if field is invalid', function() {
               beforeEach(function() {
                   this.component.parentView.validateProperty = (a) => a;
-                  this.render();
                   Ember.run(() => this.component.revalidate());
               });
 
@@ -77,9 +144,8 @@ describeComponent(
                   expect(this.component.get('message')).to.equal('name');
               });
 
-              it('has a "has-error" class', function() {
-                  const element = Ember.$(this.component.element);
-                  expect(element.hasClass('has-error')).to.be.ok;
+              it('has hasError property set to true', function() {
+                  expect(this.component.get('hasError')).to.be.ok;
               });
 
           });

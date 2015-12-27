@@ -5,16 +5,16 @@ export default Ember.Component.extend({
     classNames: ['form-horizontal'],
     classNameBindings: ['class'],
     attributeBindings: ['action'],
-    properties: [],
+    properties: Ember.A([]),
     action: 'submit',
     submitButtonClass: 'btn btn-primary',
     submitText: 'Submit',
     cancelButtonClass: 'btn btn-default',
     cancelText: 'Cancel',
 
-    notifyGroup(id, property, message='', revalidate=true) {
-        const chilViews = this.get('childViews'),
-              group     = _.detect(chilViews, c => c.get('elementId') === id);
+    notifyGroup(pid, property, message='', revalidate=true) {
+        const childViews = this.get('childViews'),
+              group     = _.detect(childViews, c => c.get('pid') === pid);
         if (!message && !revalidate) message = this.getMessage(property);
         if (revalidate)              message = this.validateProperty(property);
         group.set('message', message);
@@ -37,10 +37,10 @@ export default Ember.Component.extend({
               errors = this.get('model.errors.content');
         if (bool) return this.sendAction('submitAction');
         _.each(errors, e => {
-            const id = _.result(_.detect(this.get('properties'), p => {
+            const pid = _.result(_.detect(this.get('properties'), p => {
                 if (e) return _.contains(p.properties, e.attribute);
-            }), 'id');
-            if (id) this.notifyGroup(id, e.attribute, e.message, false);
+            }), 'pid');
+            if (pid) this.notifyGroup(pid, e.attribute, e.message, false);
         });
     },
 

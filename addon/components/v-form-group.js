@@ -5,6 +5,9 @@ export default Ember.Component.extend({
     class: ['form-group'],
     classNameBindings: ['class', 'hasError'],
     property: '',
+    pid: Ember.computed('property', function() {
+        if (this.get('property')) return `v-form-group#${this.get('property')}`;
+    }),
     valid: Ember.computed.not('message'),
     hasError: Ember.computed.bool('message'),
     didInsertElement() {
@@ -21,7 +24,10 @@ export default Ember.Component.extend({
         if (this.get('hardWatch')) {
             html.on('focusout', this.revalidate.bind(this));
         }
-        vForm.get('properties').push(props);
+        vForm.get('properties').pushObject({
+            pid: this.get('pid'),
+            properties: props
+        });
         _.each(props, (prop) => {
             vForm.addObserver(`model.${prop}`,this, this.revalidate.bind(this));
         });
@@ -42,12 +48,12 @@ export default Ember.Component.extend({
         const subproperties = properties[0].match(/\[[a-z, ]+\]/i);
         if (subproperties) {
             const [parentProp, childProps] = properties[0].split('.');
-            properties = _.map(_.words(subproperties[0]), word => {
+            properties = _.map(_.words(subproperties[0], /\w+/g), word => {
                 if (childProps) return `${parentProp}.${word}`;
                 return word;
             });
         }
 
-        return {id: this.get('elementId'), properties};
+        return properties;
     }
 });
