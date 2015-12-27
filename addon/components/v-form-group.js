@@ -17,19 +17,19 @@ export default Ember.Component.extend({
               vForm = this.get('parentView');
 
         if (input) {
-            input.on('focus', this.clearErrors.bind(this));
-            input.on('blur', this.revalidate.bind(this));
+            input.on('focus', () => this.clearErrors());
+            input.on('blur', () => this.revalidate());
         }
 
         if (this.get('hardWatch')) {
-            html.on('focusout', this.revalidate.bind(this));
+            html.on('focusout', () => this.revalidate());
         }
         vForm.get('properties').pushObject({
             pid: this.get('pid'),
             properties: props
         });
         _.each(props, (prop) => {
-            vForm.addObserver(`model.${prop}`,this, this.revalidate.bind(this));
+            vForm.addObserver(`model.${prop}`, this, () => this.revalidate());
         });
     },
 
