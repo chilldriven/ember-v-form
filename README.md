@@ -1,6 +1,44 @@
-# Ember-v-form
+# ember-v-form
 
-This README outlines the details of collaborating on this Ember addon.
+A simple and highly customizable form validation addon, built on top of [ember-model-validator](https://github.com/esbanarango/ember-model-validator).
+
+## Dependencies
+* [ember-model-validator](https://github.com/esbanarango/ember-model-validator)
+* [ember-lodash](https://github.com/mike-north/ember-lodash)
+
+## Usage
+This addon consists of two components: `v-form` and `v-form-group`. Used as follows (model has to have validations, go [here](https://github.com/esbanarango/ember-model-validator) for validation examples):
+
+```handlebars
+{{#v-form model=model}}
+  {{#v-form-group property="name"}}
+    <!-- any kind of input here -->
+  {{/v-form-group}}
+{{/v-form}}
+```
+
+### Compound properties
+Sometimes you want to have two fields validated by same rule. This:
+```handlebars
+{{#v-form model=model}}
+  {{#v-form-group property="[firstname, lastname]"}}
+    <!-- input1 -->
+    <!-- input2 -->
+  {{/v-form-group}}
+{{/v-form}}
+```
+
+Or even this:
+```handlebars
+{{#v-form model=model}}
+  {{#v-form-group property="address.[city, street]"}}
+    <!-- input1 -->
+    <!-- input2 -->
+  {{/v-form-group}}
+{{/v-form}}
+```
+will work for you.
+
 
 ## Installation
 
