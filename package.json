@@ -1,6 +1,6 @@
 {
   "name": "ember-v-form",
-  "version": "0.0.1",
+  "version": "0.0.1-alpha",
   "description": "The default blueprint for ember-cli addons.",
   "directories": {
     "doc": "doc",
