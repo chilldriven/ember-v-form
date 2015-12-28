@@ -46,11 +46,11 @@ export default Ember.Component.extend({
     const bool   = this.get('model').validate(),
           errors = this.get('model.errors.content');
     if (bool) return this.sendAction('submitAction');
-    _.each(errors, e => {
+    _.each(errors, err => {
       const pid = _.result(_.detect(this.get('properties'), p => {
-        if (e) return _.contains(p.properties, e.attribute);
+        if (err) return _.contains(p.properties, err.attribute);
       }), 'pid');
-      if (pid) this.notifyGroup(pid, e.attribute, e.message, false);
+      if (pid) this.notifyGroup(pid, err.attribute, err.message, false);
     });
   },
 
