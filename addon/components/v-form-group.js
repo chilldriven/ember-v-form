@@ -42,6 +42,7 @@ export default Ember.Component.extend({
     },
 
     revalidate() {
+        this.clearErrors();
         const prop     = this.get('property'),
               message  = this.get('parentView').validateProperty(prop);
         if (message) this.set('message', message);
