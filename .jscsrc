@@ -1,10 +1,11 @@
 {
     "preset": "google",
     "esnext": true,
-    "validateLineBreaks": "LF",
-    "validateIndentation": 4,
+    "disallowVar": true,
+    "disallowMultipleVarDecl": false,
     "disallowTrailingComma": true,
     "requireCurlyBraces": false,
-    "disallowMultipleVarDecl": false,
-    "disallowVar": true,
+    "validateLineBreaks": "LF",
+    "validateIndentation": 4,
+    "maximumLineLength": 120,
 }
