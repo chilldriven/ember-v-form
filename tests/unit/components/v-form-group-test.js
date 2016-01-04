@@ -31,10 +31,6 @@ describeComponent(
       });
 
       describe('property assignment', function() {
-          beforeEach(function() {
-
-          });
-
           it('pushes its id and property name to parentView', function() {
               this.component = this.subject({
                   property: 'name',
@@ -120,6 +116,7 @@ describeComponent(
           describe('if field is valid', function() {
               beforeEach(function() {
                   this.component.parentView.validateProperty = _ => {};
+
                   Ember.run(() => this.component.revalidate());
               });
 

@@ -28,6 +28,7 @@ export default Ember.Component.extend({
         if (this.get('hardWatch')) {
             html.on('focusout', () => this.revalidate());
         }
+
         vForm.get('properties').pushObject({
             pid: this.get('pid'),
             properties: props

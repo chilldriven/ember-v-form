@@ -11,6 +11,8 @@ export default Ember.Component.extend({
     submitText: 'Submit',
     cancelButtonClass: 'btn btn-default',
     cancelText: 'Cancel',
+    invalid: true,
+    disableInvalidSubmission: true,
 
     notifyGroup(pid, property, message='', revalidate=true) {
         const childViews = this.get('childViews'),
@@ -21,7 +23,8 @@ export default Ember.Component.extend({
     },
 
     validateProperty(propertyKey) {
-        this.get('model').validate({only: propertyKey});
+        const bool = this.get('model').validate({only: propertyKey});
+        this.set('invalid', !bool);
         return this.getMessage(propertyKey);
     },
 
@@ -45,6 +48,7 @@ export default Ember.Component.extend({
         this.clearAll();
         const bool   = this.get('model').validate(),
               errors = this.get('model.errors.content');
+        this.set('invalid', !bool);
         if (bool) return this.sendAction('submitAction');
         _.each(errors, err => {
             const pid = _.result(_.detect(this.get('properties'), p => {
@@ -52,12 +56,5 @@ export default Ember.Component.extend({
             }), 'pid');
             if (pid) this.notifyGroup(pid, err.attribute, err.message, false);
         });
-    },
-
-    actions: {
-        cancel() {
-            this.sendAction('cancelAction');
-        }
     }
-
 });

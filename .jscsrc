@@ -4,8 +4,10 @@
     "disallowVar": true,
     "disallowMultipleVarDecl": false,
     "disallowTrailingComma": true,
+    "requirePaddingNewLinesAfterBlocks": true,
+    "requireShorthandArrowFunctions": true,
     "requireCurlyBraces": false,
     "validateLineBreaks": "LF",
     "validateIndentation": 4,
-    "maximumLineLength": 120,
+    "maximumLineLength": 120
 }

@@ -1,0 +1,8 @@
+<div class="col-md-6">
+    {{#v-form model=model submitAction="submit"}}
+        {{#v-form-group property="name"}}
+            {{input class="form-control" value=model.name}}
+        {{/v-form-group}}
+        {{#v-form-submit}}Submit{{/v-form-submit}}
+    {{/v-form}}
+</div>

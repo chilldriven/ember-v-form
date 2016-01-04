@@ -10,7 +10,9 @@ const Person = Ember.Object.create({
     password: '',
     accepted: false,
     address: {},
-    errors: Ember.Object.create({content: Ember.A([])}),
+    errors: Ember.Object.create({
+        content: Ember.A([])
+    }),
     validate(arg) {
         if (arg) {
             return _setErrors(arg.only, this);
@@ -25,21 +27,23 @@ const Person = Ember.Object.create({
 
 function _setErrors(attr, thisArg) {
     thisArg.get('errors.content')
-           .pushObject({attribute: attr, message: [`blank ${attr}`]});
+        .pushObject({
+            attribute: attr,
+            message: [`blank ${attr}`]
+        });
     return !!thisArg.get(attr);
 }
 
 describeComponent(
-  'v-form',
-  'VFormComponent',
-  {
-      needs: ['component:v-form-group']
-  },
-  function() {
-      beforeEach(function() {
-          this.component = this.subject({
-              model: Person,
-              template: hbs`
+    'v-form',
+    'VFormComponent', {
+        needs: ['component:v-form-group', 'component:v-form-submit']
+    },
+    function() {
+        beforeEach(function() {
+            this.component = this.subject({
+                model: Person,
+                template: hbs `
                 {{#v-form-group property="name" elementId="nameId"}}
                     <input type="text"/>
                 {{/v-form-group}}
@@ -54,40 +58,41 @@ describeComponent(
                     <input type="text"/>
                 {{/v-form-group}}
               `
-          });
-      });
+            });
+        });
 
-      describe('rendering', function() {
-          beforeEach(function() {
-              expect(this.component._state).to.equal('preRender');
-              this.render();
-              this.element = Ember.$(this.component.element);
-          });
+        describe('rendering', function() {
+            beforeEach(function() {
+                expect(this.component._state).to.equal('preRender');
+                this.render();
+                this.element = Ember.$(this.component.element);
+            });
 
-          it('renders with proper classname and children', function() {
-              expect(this.component._state).to.equal('inDOM');
-              this.component.childViews.forEach(cv => {
-                  expect(cv._state).to.equal('inDOM');
-              });
-              expect(this.element.hasClass('form-horizontal')).to.be.ok;
-          });
-      });
+            it('renders with proper classname and children', function() {
+                expect(this.component._state).to.equal('inDOM');
+                this.component.childViews.forEach(cv => {
+                    expect(cv._state).to.equal('inDOM');
+                });
+                expect(this.element.hasClass('form-horizontal')).to.be.ok;
+            });
+        });
 
-      describe('submission', function() {
-          beforeEach(function() {
-              expect(this.component._state).to.equal('preRender');
-              this.render();
-              this.element = Ember.$(this.component.element);
-              this.element.trigger('submit');
-          });
-          describe('on empty form', function() {
-              it('assigns errors on each property', function() {
-                  expect(this.component.model.get('errors.content'))
-                    .not.to.be.empty;
-                  expect(this.component.model.get('errors.content'))
-                    .to.have.length(5);
-              });
-          });
-      });
-  }
+        describe('submission', function() {
+            beforeEach(function() {
+                expect(this.component._state).to.equal('preRender');
+                this.render();
+                this.element = Ember.$(this.component.element);
+                this.element.trigger('submit');
+            });
+
+            describe('on empty form', function() {
+                it('assigns errors on each property', function() {
+                    expect(this.component.model.get('errors.content'))
+                        .not.to.be.empty;
+                    expect(this.component.model.get('errors.content'))
+                        .to.have.length(5);
+                });
+            });
+        });
+    }
 );
