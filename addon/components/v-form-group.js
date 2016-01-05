@@ -9,9 +9,11 @@ export default Ember.Component.extend({
     pid: Ember.computed('property', function() {
         if (this.get('property')) return `v-form-group#${this.get('property')}`;
     }),
+
     error: Ember.computed('message', function() {
         if (this.get('message')) return this.get('errorClass');
     }),
+
     valid: Ember.computed.not('message'),
     inValid: Ember.computed.bool('message'),
     didInsertElement() {
