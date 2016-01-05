@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { describeComponent } from 'ember-mocha';
-import { describe, it, beforeEach, before } from 'mocha';
+import { describe, it, beforeEach } from 'mocha';
 import hbs from 'htmlbars-inline-precompile';
 import _ from 'lodash/lodash';
 import DS from 'ember-data';
@@ -9,9 +9,18 @@ import Ember from 'ember';
 
 const defaultAttrs = 'name password accepted address.street address.city'.split(' ');
 
-const formParams = {
-    template: hbs `
-    {{#v-form-group property="name" elementId="nameId"}}
+function getStore(thisArg) {
+    const store = DS.Store.extend({
+        adapter: DS.MochaAdapter
+    });
+
+    return store.create({
+        container: thisArg.container
+    });
+}
+
+const template = hbs `
+    {{#v-form-group property="name"}}
         {{input value=model.name}}
     {{/v-form-group}}
     {{#v-form-group property="password"}}
@@ -27,8 +36,7 @@ const formParams = {
     {{#v-form-submit}}
         Submit
     {{/v-form-submit}}
-  `
-};
+`;
 
 describeComponent(
     'v-form',
@@ -43,121 +51,159 @@ describeComponent(
     },
     function() {
         describe('rendering', function() {
-            it('renders with proper classname and children', function() {
-                const form = this.subject(formParams);
+            beforeEach(function() {
+                const formParams = {template: template};
                 Ember.run(() => {
                     const store = getStore(this);
-                    form.set('model', store.createRecord('person'));
+                    Ember.set(formParams, 'model', store.createRecord('person'));
                 });
-
-                expect(form._state).to.equal('preRender');
+                this.form = this.subject(formParams);
+                expect(this.form._state).to.equal('preRender');
                 this.render();
-                expect(form._state).to.equal('inDOM');
-                expect(_.all(form.childViews, cv => cv._state === 'inDOM')).to.be.ok;
-                expect(Ember.$(form.element).hasClass('form-horizontal')).to.be.ok;
+            });
+
+            it('renders with proper classname and children', function() {
+                expect(this.form._state).to.equal('inDOM');
+                expect(_.all(this.form.childViews, cv => cv._state === 'inDOM')).to.be.ok;
+                expect(Ember.$(this.form.element).hasClass('form-horizontal')).to.be.ok;
             });
 
             it('has property array filled and observers defined', function() {
-                const form = this.subject(formParams);
-                Ember.run(() => {
-                    const store = getStore(this);
-                    form.set('model', store.createRecord('person'));
-                });
-
-                this.render();
-                const formAttrs = _.chain(form.properties)
+                const formAttrs = _.chain(this.form.properties)
                     .map(p => p.properties)
                     .flatten()
                     .value();
                 expect(_.xor(formAttrs, defaultAttrs)).to.have.length(0);
-                expect(_.all(defaultAttrs, a => form.hasObserverFor(`model.${a}`))).to.be.ok;
+                expect(_.all(defaultAttrs, a => this.form.hasObserverFor(`model.${a}`))).to.be.ok;
             });
         });
 
         describe('submission', function() {
-            it('calls full model validation', function() {
-                const form = this.subject(formParams);
-                Ember.run(() => {
-                    const store = getStore(this);
-                    form.set('model', store.createRecord('person'));
-                });
-                const spy  = sinon.spy(form.model, 'validate');
-                this.render();
-                Ember.$(form.element).trigger('submit');
-                expect(spy.calledWith()).to.be.ok;
-            });
-
-            describe('on fully invalid form', function() {
-                it('assigns errors on each property', function() {
-                    const form = this.subject(formParams);
+            describe('on invalid form', function() {
+                beforeEach(function() {
+                    const formParams = {template: template};
                     Ember.run(() => {
                         const store = getStore(this);
-                        form.set('model', store.createRecord('person'));
+                        Ember.set(formParams, 'model', store.createRecord('person'));
                     });
 
+                    this.form = this.subject(formParams);
+                    this.sendAction = sinon.spy(this.form, 'sendAction');
+                    this.validate   = sinon.spy(this.form.model, 'validate');
+
                     this.render();
-                    Ember.$(form.element).trigger('submit');
-                    const errors = form.model.get('errors.content').mapBy('attribute');
+                });
+
+                it('calls full model validation', function() {
+                    Ember.$(this.form.element).trigger('submit');
+                    expect(this.validate.calledWith()).to.be.ok;
+                });
+
+                it('assigns errors on each invalid property', function() {
+                    Ember.$(this.form.element).trigger('submit');
+                    const errors = this.form.get('errors');
                     expect(_.xor(errors, defaultAttrs)).to.have.length(0);
                 });
 
-                it('has invalid property set to true', function() {
-                    const form = this.subject(formParams);
+                it('clears errors on each valid property', function() {
                     Ember.run(() => {
-                        const store = getStore(this);
-                        form.set('model', store.createRecord('person'));
+                        this.form.model.set('name', 'some name');
+                        this.form.model.set('address', {city: 'some city'});
                     });
 
-                    this.render();
-                    Ember.$(form.element).trigger('submit');
-                    expect(form.get('invalid')).to.be.ok;
+                    Ember.$(this.form.element).trigger('submit');
+                    const errors   = this.form.get('errors'),
+                          messages = this.form.childViews.mapBy('message');
+                    expect(_.contains(errors, 'name')).to.not.be.ok;
+                    expect(_.contains(errors, 'address.city')).to.not.be.ok;
+                    expect(_.compact(messages)).to.have.length(3);
+                });
+
+                it('has invalid property set to true', function() {
+                    Ember.$(this.form.element).trigger('submit');
+                    expect(this.form.get('invalid')).to.be.ok;
                 });
 
                 it('does not send submit action', function() {
-                    const form = this.subject(formParams),
-                          spy  = sinon.spy(form, 'sendAction');
-                    Ember.run(() => {
-                        const store = getStore(this);
-                        form.set('model', store.createRecord('person'));
-                    });
-
-                    this.render();
-                    Ember.$(form.element).trigger('submit');
-                    expect(spy.neverCalledWith('submitAction')).to.be.ok;
+                    Ember.$(this.form.element).trigger('submit');
+                    expect(this.sendAction.neverCalledWith('submitAction')).to.be.ok;
                 });
             });
 
-            describe('on partially invalid form', function() {
-                it('clears errors on valid property', function() {
-                    const form = this.subject(formParams);
+            describe('on valid form', function() {
+                beforeEach(function() {
+                    const formParams = {template: template};
                     Ember.run(() => {
-                        const store = getStore(this),
-                              model = store.createRecord('person');
-                        model.setProperties({
+                        const store = getStore(this);
+                        Ember.set(formParams, 'model', store.createRecord('person', {
                             name: 'some name',
-                            address: {city: 'some city'}
-                        });
-                        form.set('model', model);
+                            address: {city: 'some city', street: 'some street'},
+                            password: 'some password',
+                            accepted: true
+                        }));
                     });
-
+                    this.form = this.subject(formParams);
+                    this.sendAction = sinon.spy(this.form, 'sendAction');
+                    this.validate   = sinon.spy(this.form.model, 'validate');
                     this.render();
-                    Ember.$(form.element).trigger('submit');
-                    Ember.$(form.element).trigger('submit');
-                    const errors = form.model.get('errors.content').mapBy('attribute');
-                    expect(_.contains(errors, 'name')).to.not.be.ok;
-                    expect(_.contains(errors, 'address.city')).to.not.be.ok;
                 });
+
+                it('calls full model validation', function() {
+                    Ember.$(this.form.element).trigger('submit');
+                    expect(this.validate.calledWith()).to.be.ok;
+                });
+
+                it('does not assign errors to any property', function() {
+                    Ember.$(this.form.element).trigger('submit');
+                    const errors   = this.form.get('errors'),
+                          messages = this.form.childViews.mapBy('message');
+                    expect(errors).to.have.length(0);
+                    expect(_.compact(messages)).to.have.length(0);
+                });
+
+                it('has invalid property set to false', function() {
+                    Ember.$(this.form.element).trigger('submit');
+                    expect(this.form.get('invalid')).to.not.be.ok;
+                });
+
+                it('sends submitAction', function() {
+                    Ember.$(this.form.element).trigger('submit');
+                    expect(this.sendAction.calledWith('submitAction')).to.be.ok;
+                });
+            });
+        });
+
+        describe('observing model changes', function() {
+            beforeEach(function() {
+                const formParams = {template: template};
+                Ember.run(() => {
+                    const store = getStore(this);
+                    Ember.set(formParams, 'model', store.createRecord('person'));
+                });
+                this.form = this.subject(formParams);
+                this.validate = sinon.spy(this.form.model, 'validate');
+                this.render();
+            });
+
+            it('calls validation only on changed property', function() {
+                Ember.run(() => this.form.model.set('name', 'a name'));
+                expect(this.validate.calledWith({only: 'name'})).to.be.ok;
+            });
+
+            it('sets and unsets invalid flag properly', function() {
+                Ember.run(() => this.form.model.set('name', ''));
+                expect(this.form.get('invalid')).to.be.ok;
+                Ember.run(() => this.form.model.set('name', 'a name'));
+                expect(this.form.get('invalid')).to.not.be.ok;
+            });
+
+            it('sets and unsets message on associated v-form-group properly', function() {
+                const group = _.detect(this.form.childViews, c => c.get('elementId') === 'v-form-group#name');
+                Ember.run(() => this.form.model.set('name', ''));
+                expect(group.message).to.equal('can\'t be blank');
+                Ember.run(() => this.form.model.set('name', 'a name'));
+                expect(group.message).to.not.be.ok;
             });
         });
     }
 );
-
-function getStore(thisArg) {
-    const store = DS.Store.extend({
-        adapter: DS.MochaAdapter
-    });
-
-    return store.create({
-        container: thisArg.container
-    });
-}

@@ -14,7 +14,7 @@ export default DS.Model.extend(Validator, {
             presence: true
         },
         accepted: {
-            presence: true
+            acceptance: true
         },
         'address.city': {
             presence: true

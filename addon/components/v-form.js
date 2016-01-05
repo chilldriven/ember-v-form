@@ -12,20 +12,27 @@ export default Ember.Component.extend({
     submitText: 'Submit',
     cancelButtonClass: 'btn btn-default',
     cancelText: 'Cancel',
-    invalid: true,
     disableInvalidSubmission: true,
 
-    notifyGroup(pid, property, message='', revalidate=true) {
+    errors: Ember.computed.mapBy('model.errors.content', 'attribute'),
+    valid: Ember.computed.and('model.hasDirtyAttributes', 'model.isValidNow'),
+    invalid: Ember.computed.not('valid'),
+
+    init() {
+        this._super(...arguments);
+        this.get('model').validate();
+    },
+
+    notifyGroup(elementId, property, message='', revalidate=true) {
         const childViews = this.get('childViews'),
-              group     = _.detect(childViews, c => c.get('pid') === pid);
+              group     = _.detect(childViews, c => c.get('elementId') === elementId);
         if (!message && !revalidate) message = this.getMessage(property);
         if (revalidate)              message = this.validateProperty(property);
         group.set('message', message);
     },
 
     validateProperty(propertyKey) {
-        const bool = this.get('model').validate({only: propertyKey});
-        this.set('invalid', !bool);
+        this.get('model').validate({only: propertyKey});
         return this.getMessage(propertyKey);
     },
 
@@ -39,7 +46,7 @@ export default Ember.Component.extend({
         const childViews = this.get('childViews'),
               properties = this.get('properties');
         _.each(properties, p => {
-            const group = _.detect(childViews, c => c.get('pid') === p.pid);
+            const group = _.detect(childViews, c => c.get('elementId') === p.elementId);
             if (group) group.clearErrors();
         });
     },
@@ -49,13 +56,12 @@ export default Ember.Component.extend({
         this.clearAll();
         const bool   = this.get('model').validate(),
               errors = this.get('model.errors.content');
-        this.set('invalid', !bool);
         if (bool) return this.sendAction('submitAction');
         _.each(errors, err => {
-            const pid = _.result(_.detect(this.get('properties'), p => {
+            const elementId = _.result(_.detect(this.get('properties'), p => {
                 if (err) return _.contains(p.properties, err.attribute);
-            }), 'pid');
-            if (pid) this.notifyGroup(pid, err.attribute, err.message, false);
+            }), 'elementId');
+            if (elementId) this.notifyGroup(elementId, err.attribute, err.message, false);
         });
     }
 });

@@ -7,16 +7,16 @@ export default Ember.Component.extend({
     errorClass: 'has-error',
     classNameBindings: ['class', 'error'],
     property: '',
-    pid: Ember.computed('property', function() {
-        if (this.get('property')) return `v-form-group#${this.get('property')}`;
-    }),
 
     error: Ember.computed('message', function() {
         if (this.get('message')) return this.get('errorClass');
     }),
 
-    valid: Ember.computed.not('message'),
-    inValid: Ember.computed.bool('message'),
+    init() {
+        this.set('elementId', `v-form-group#${this.get('property')}`);
+        this._super(...arguments);
+    },
+
     didInsertElement() {
         const html  = Ember.$(this.element),
               input = Ember.$('input, textarea, select', html),
@@ -33,7 +33,7 @@ export default Ember.Component.extend({
         }
 
         vForm.get('properties').pushObject({
-            pid: this.get('pid'),
+            elementId: this.get('elementId'),
             properties: props
         });
         _.each(props, (prop) => {
