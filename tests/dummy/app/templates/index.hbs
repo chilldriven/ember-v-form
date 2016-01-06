@@ -1,8 +1,49 @@
 <div class="col-md-6">
     {{#v-form model=model submitAction="submit"}}
-        {{#v-form-group property="name"}}
-            {{input class="form-control" value=model.name}}
-        {{/v-form-group}}
-        {{#v-form-submit}}Submit{{/v-form-submit}}
+        <div class="well">
+            <fieldset>
+                <legend>User</legend>
+                {{#v-form-group property="name"}}
+                     <label class="col-md-4">Name</label>
+                    <div class="col-md-8">
+                        {{input class="form-control" value=model.name}}
+                    </div>
+                {{/v-form-group}}
+                {{#v-form-group property="password"}}
+                     <label class="col-md-4">Password</label>
+                    <div class="col-md-8">
+                        {{input class="form-control" value=model.password}}
+                    </div>
+                {{/v-form-group}}
+                {{#v-form-group property="gender"}}
+                     <label class="col-md-4">Gender</label>
+                    <div class="col-md-8">
+                        {{select-2 optionValuePath="id" value=model.gender content=genders}}
+                    </div>
+                {{/v-form-group}}
+                {{#v-form-group property="color"}}
+                     <label class="col-md-4">Color</label>
+                    <div class="col-md-8">
+                        {{col-pick-input class="form-control" value=model.color}}
+                    </div>
+                {{/v-form-group}}
+                {{#v-form-group property="address.[city, street]"}}
+                     <label class="col-md-4">Address</label>
+                    <div class="col-md-4">
+                        {{input class="form-control" value=model.address.city}}
+                    </div>
+                    <div class="col-md-4">
+                        {{input class="form-control" value=model.address.street}}
+                    </div>
+                {{/v-form-group}}
+                {{#v-form-group property="accepted"}}
+                     <label class="col-md-4">Something to accept</label>
+                    <div class="col-md-8">
+                        {{input checked=model.accepted type="checkbox"}}
+                    </div>
+                {{/v-form-group}}
+                {{#v-form-submit}}Submit{{/v-form-submit}}
+            </fieldset>
+        </div>
     {{/v-form}}
 </div>
