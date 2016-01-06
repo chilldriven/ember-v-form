@@ -19,21 +19,22 @@ export default Ember.Component.extend({
     invalid: Ember.computed.not('valid'),
 
     init() {
-        this._super(...arguments);
         this.get('model').validate();
+        this._super(...arguments);
     },
 
     notifyGroup(elementId, property, message='', revalidate=true) {
         const childViews = this.get('childViews'),
               group     = _.detect(childViews, c => c.get('elementId') === elementId);
         if (!message && !revalidate) message = this.getMessage(property);
-        if (revalidate)              message = this.validateProperty(property);
+        if (revalidate)              message = this.validateProperty(elementId);
         group.set('message', message);
     },
 
-    validateProperty(propertyKey) {
-        this.get('model').validate({only: propertyKey});
-        return this.getMessage(propertyKey);
+    validateProperty(elementId) {
+        const p = this.get('properties').findBy('elementId', elementId);
+        this.get('model').validate({only: p.properties});
+        return this.getMessage(_.first(p.properties));
     },
 
     getMessage(propertyKey) {

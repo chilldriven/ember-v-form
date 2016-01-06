@@ -18,19 +18,8 @@ export default Ember.Component.extend({
     },
 
     didInsertElement() {
-        const html  = Ember.$(this.element),
-              input = Ember.$('input, textarea, select', html),
-              props = this.extractProperties(),
+        const props = this.extractProperties(),
               vForm = this.get('parentView');
-
-        if (input) {
-            input.on('focus', () => this.clearErrors());
-            input.on('blur', () => this.revalidate());
-        }
-
-        if (this.get('hardWatch')) {
-            html.on('focusout', () => this.revalidate());
-        }
 
         vForm.get('properties').pushObject({
             elementId: this.get('elementId'),
@@ -41,14 +30,21 @@ export default Ember.Component.extend({
         });
     },
 
+    focusIn() {
+        this.clearErrors();
+    },
+
+    focusOut() {
+        this.revalidate();
+    },
+
     clearErrors() {
         this.set('message', undefined);
     },
 
     revalidate() {
         this.clearErrors();
-        const prop     = this.get('property'),
-              message  = this.get('parentView').validateProperty(prop);
+        const message  = this.get('parentView').validateProperty(this.get('elementId'));
         if (message) this.set('message', message);
     },
 
