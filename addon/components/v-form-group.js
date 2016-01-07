@@ -25,6 +25,7 @@ export default Ember.Component.extend({
             elementId: this.get('elementId'),
             properties: props
         });
+
         _.each(props, (prop) => {
             vForm.addObserver(`model.${prop}`, this, () => this.revalidate());
         });
@@ -43,6 +44,7 @@ export default Ember.Component.extend({
     },
 
     revalidate() {
+        console.log('revalidatin');
         this.clearErrors();
         const message  = this.get('parentView').validateProperty(this.get('elementId'));
         if (message) this.set('message', message);
