@@ -138,7 +138,7 @@ describeComponent(
               });
 
               it('has a message', function() {
-                  expect(this.component.get('message')).to.equal('name');
+                  expect(this.component.get('message')).to.equal('v-form-group#name');
               });
 
               it('has "error" property set to true', function() {

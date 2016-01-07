@@ -181,13 +181,13 @@ describeComponent(
                     Ember.set(formParams, 'model', store.createRecord('person'));
                 });
                 this.form = this.subject(formParams);
-                this.validate = sinon.spy(this.form.model, 'validate');
+                this.validation = sinon.spy(this.form.model, 'validate');
                 this.render();
             });
 
             it('calls validation only on changed property', function() {
                 Ember.run(() => this.form.model.set('name', 'a name'));
-                expect(this.validate.calledWith({only: 'name'})).to.be.ok;
+                expect(this.validation.calledWith({only: ['name']})).to.be.ok;
             });
 
             it('sets and unsets invalid flag properly', function() {
