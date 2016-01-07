@@ -25,6 +25,7 @@ export default Ember.Component.extend({
             elementId: this.get('elementId'),
             properties: props
         });
+
         _.each(props, (prop) => {
             vForm.addObserver(`model.${prop}`, this, () => this.revalidate());
         });
