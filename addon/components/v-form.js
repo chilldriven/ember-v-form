@@ -4,15 +4,11 @@ import _ from 'lodash/lodash';
 export default Ember.Component.extend({
     tagName: 'form',
     class: 'form-horizontal',
+    submitAction: 'submit',
     classNameBindings: ['class'],
     attributeBindings: ['action'],
     properties: Ember.A([]),
     action: 'submit',
-    submitButtonClass: 'btn btn-primary',
-    submitText: 'Submit',
-    cancelButtonClass: 'btn btn-default',
-    cancelText: 'Cancel',
-    disableInvalidSubmission: true,
 
     errors: Ember.computed.mapBy('model.errors.content', 'attribute'),
     valid: Ember.computed.and('model.hasDirtyAttributes', 'model.isValidNow'),
@@ -25,7 +21,7 @@ export default Ember.Component.extend({
 
     notifyGroup(elementId, property, message='', revalidate=true) {
         const childViews = this.get('childViews'),
-              group     = _.detect(childViews, c => c.get('elementId') === elementId);
+              group      = _.detect(childViews, c => c.get('elementId') === elementId);
         if (!message && !revalidate) message = this.getMessage(property);
         if (revalidate)              message = this.validateProperty(elementId);
         group.set('message', message);
