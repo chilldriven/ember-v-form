@@ -8,3 +8,7 @@
     border: none;
     font-size: 12px;
 }
+
+.help-text .text-danger {
+    float: right;
+}

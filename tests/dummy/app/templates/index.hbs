@@ -1,0 +1,62 @@
+<div class="col-md-12">
+  <h2>Overview</h2>
+</div>
+<h3>Usage</h3>
+{{#em-snippet lang="handlebars"}}
+\{{#v-form model=model}}
+  \{{#v-form-group property="name"}}
+    <!-- any kind of input here -->
+  \{{/v-form-group}}
+\{{/v-form}}
+{{/em-snippet}}
+
+<h3>Compound properties</h3>
+<p>
+    Sometimes you want to have two fields validated by same rule. This is how you do it:
+</p>
+{{#em-snippet lang="handlebars"}}
+\{{#v-form model=model}}
+  \{{#v-form-group property="[firstname, lastname]"}}
+    <!-- input1 -->
+    <!-- input2 -->
+  \{{/v-form-group}}
+  \{{#v-form-submit}}Submit\{{/v-form-submit}}
+\{{/v-form}}
+{{/em-snippet}}
+
+Or even this:
+{{#em-snippet lang="handlebars"}}
+\{{#v-form model=model}}
+  \{{#v-form-group property="address.[city, street]"}}
+    <!-- input1 -->
+    <!-- input2 -->
+  \{{/v-form-group}}
+  \{{#v-form-submit}}Submit\{{/v-form-submit}}
+\{{/v-form}}
+{{/em-snippet}}
+
+<h3>Non-standard inputs</h3>
+<p>
+    This addon does not include any kind of inputs, so you have to put them in yourself.
+    Since validation is provided on model level by <a href="https://github.com/esbanarango/ember-model-validator">ember-model-validator</a>,
+    any field that acts like an input will be validated.
+</p>
+<p>
+    As a result, inputs like
+    <a href="https://github.com/yapplabs/ember-radio-button">ember-radio-button</a>,
+    <a href="https://github.com/iStefo/ember-select-2">select-2</a> or
+    <a href='https://github.com/yapplabs/ember-colpick'>color picker</a> work with this addon perfectly.
+</p>
+<h3>Bootstrap</h3>
+<p>
+    By default, <code>v-form</code> and <code>v-form-group</code> are assigned bootstrap classes <code>form-horizontal</code>, and <code>form-group</code> respectively. Invalid fields receive bootstrap <code>has-error</code> class. If you don't want to use them, just pass your own classes into the component like this:
+</p>
+{{#em-snippet lang="handlebars"}}
+\{{#v-form model=model class="my-class"}}
+  \{{#v-form-group property="foo.[bar, baz]" class="my-other-class" errorClass="my-error-class"}}
+    <!-- input1 -->
+    <!-- input2 -->
+  \{{/v-form-group}}
+  \{{#v-form-submit}}Submit\{{/v-form-submit}}
+\{{/v-form}}
+{{/em-snippet}}
