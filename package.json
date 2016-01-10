@@ -1,7 +1,7 @@
 {
   "name": "ember-v-form",
   "version": "0.1.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Ember form validation addon.",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -18,7 +18,7 @@
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "",
+  "author": "Anastasia Kucherova",
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.2.0",
@@ -37,7 +37,6 @@
     "ember-disable-prototype-extensions": "^1.0.0",
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
-    "ember-lodash": "0.0.6",
     "ember-resolver": "2.0.3",
     "ember-sinon": "0.3.0",
     "ember-try": "~0.0.8"
@@ -46,6 +45,7 @@
     "ember-addon"
   ],
   "dependencies": {
+    "ember-lodash": "0.0.6",
     "ember-cli-htmlbars": "^1.0.1",
     "ember-cli-htmlbars-inline-precompile": "^0.3.1",
     "ember-model-validator": "^1.3.0",
