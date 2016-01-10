@@ -35,7 +35,7 @@ describeComponent(
 
             it('is enabled if disableInvalidSubmission is off', function() {
                 Ember.run(() => this.component.setProperties({
-                    'parentView.disableInvalidSubmission': false,
+                    'disableInvalidSubmission': false,
                     'parentView.invalid': true
                 }));
                 expect(this.component.get('disabled')).to.not.be.ok;
@@ -44,7 +44,7 @@ describeComponent(
 
             it('is enabled if form is valid', function() {
                 Ember.run(() => this.component.setProperties({
-                    'parentView.disableInvalidSubmission': true,
+                    'disableInvalidSubmission': true,
                     'parentView.invalid': false
                 }));
                 expect(this.component.get('disabled')).to.not.be.ok;
@@ -53,7 +53,7 @@ describeComponent(
 
             it('is disabled if disableInvalidSubmission is on and form is invalid', function() {
                 Ember.run(() => this.component.setProperties({
-                    'parentView.disableInvalidSubmission': true,
+                    'disableInvalidSubmission': true,
                     'parentView.invalid': true
                 }));
                 expect(this.component.get('disabled')).to.be.ok;

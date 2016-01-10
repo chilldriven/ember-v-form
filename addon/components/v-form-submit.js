@@ -5,6 +5,8 @@ export default Ember.Component.extend({
     class: 'btn btn-primary',
     classNameBindings: ['class'],
     attributeBindings: ['type', 'disabled'],
+    disableInvalidSubmission: true,
+
     type: 'submit',
-    disabled: Ember.computed.and('parentView.disableInvalidSubmission', 'parentView.invalid')
+    disabled: Ember.computed.and('disableInvalidSubmission', 'parentView.invalid')
 });
