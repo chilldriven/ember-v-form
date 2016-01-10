@@ -7,7 +7,7 @@
     <div>
         <h3>v-form</h3>
         <p>Main component, model is passed here. Observes all property changes and validates fields.</p>
-        <h4>Code</h4>
+        <h4>Syntax</h4>
         {{#em-snippet lang="handlebars"}}\{{#v-form model=model}}form-groups, submit button, etc...\{{/v-form}}{{/em-snippet}}
         <h4>Attributes</h4>
         <table class="table-condensed">
@@ -29,18 +29,13 @@
                   <td>Action that will be triggered if your model passed all validations when form was submitted. Should be a string.</td>
                   <td><code>"submit"</code></td>
               </tr>
-              <tr>
-                  <td>disableInvalidSubmission</td>
-                  <td>Whether to apply <code>disabled</code> attribute to submit button.</td>
-                  <td><code>true</code></td>
-              </tr>
-          </tbody>
+            </tbody>
         </table>
     </div>
     <div>
         <h3>v-form-group</h3>
         <p>Form-group component. Observes <code>focusIn</code> and <code>focusOut</code> events and validates form on these events.</p>
-        <h4>Code</h4>
+        <h4>Syntax</h4>
         {{#em-snippet lang="handlebars"}}\{{#v-form-group property="property"}}inputs, labels, etc...\{{/v-form-group}}{{/em-snippet}}
         <h4>Attributes</h4>
         <table class="table-condensed">
@@ -68,7 +63,24 @@
     <div>
         <h3>v-form-submit</h3>
         <p>Just a simple submit button that triggers validation and submit action, that's all.</p>
-        <h4>Code</h4>
+        <h4>Syntax</h4>
         {{#em-snippet lang="handlebars"}}\{{#v-form-submit}}Submit text\{{/v-form-submit}}{{/em-snippet}}
+        <h4>Attributes</h4>
+        <table class="table-condensed">
+            <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Default</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                  <td>disableInvalidSubmission</td>
+                  <td>Whether to apply <code>disabled</code> attribute to submit button.</td>
+                  <td><code>true</code></td>
+              </tr>
+            </tbody>
+        </table>
     </div>
 </div>
