@@ -1,6 +1,13 @@
-<div class="container">
-    <h2 id="title">Welcome to Ember</h2>
-    <div class="row">
-        {{outlet}}
+{{render 'navbar'}}
+<div class="page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                {{render 'menu'}}
+            </div>
+            <div class="col-md-10">
+                {{outlet}}
+            </div>
+        </div>
     </div>
 </div>

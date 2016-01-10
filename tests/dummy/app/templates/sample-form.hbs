@@ -1,0 +1,197 @@
+<div class="col-md-12">
+    <div class="page-header">
+        <h1>Sample form</h1>
+    </div>
+</div>
+<div class="col-md-12">
+    {{#v-form model=model submitAction="submit"}}
+        <fieldset>
+            <div class="well">
+                {{#v-form-group property="name"}}
+                        <label class="col-lg-4 control-label">Enter your name</label>
+                        <div class="col-lg-8">
+                            {{input placeholder="Type your name or see an error" value=model.name class="form-control"}}
+                        </div>
+                {{/v-form-group}}
+                {{#v-form-group property="text"}}
+                        <label class="col-lg-4 control-label">Write a text</label>
+                        <div class="col-lg-8">
+                            {{textarea class="form-control" value=model.text rows="3" placeholder="If you type less than 10 characters, you'll see an error"}}
+                        </div>
+                {{/v-form-group}}
+                {{#v-form-group property="favouriteColor"}}
+                        <label class="col-lg-4 control-label">Pick a color</label>
+                        <div class="col-lg-8">
+                            {{col-pick-input placeholder="This better be a valid hex code!" class="form-control" value=model.favouriteColor colorScheme="default"}}
+                        </div>
+                {{/v-form-group}}
+                {{#v-form-group property="favouriteNumber"}}
+                        <label class="col-lg-4 control-label">Pick a number</label>
+                        <div class="col-lg-8">
+                            {{select-2 optionValuePath="id" content=numbers value=model.favouriteNumber placeholder="Don't leave this empty!"}}
+                        </div>
+                {{/v-form-group}}
+                {{#v-form-group property="pill"}}
+                    <label class="col-lg-4 control-label">Pill</label>
+                    <div class="col-lg-8">
+                        <div class="radio">
+                            {{#radio-button value="red" groupValue=model.pill}}
+                                Red pill
+                            {{/radio-button}}
+                        </div>
+                        <div class="radio">
+                            {{#radio-button value="blue" groupValue=model.pill}}
+                                Blue pill
+                            {{/radio-button}}
+                        </div>
+                    </div>
+                {{/v-form-group}}
+                {{#v-form-group property="accepted"}}
+                    <label class="col-lg-4 control-label"></label>
+                    <div class="col-lg-8">
+                        <div class="checkbox">
+                            <label>
+                                {{input type="checkbox" checked=model.accepted}} I accept everything
+                            </label>
+                        </div>
+                    </div>
+                {{/v-form-group}}
+                <div class="form-group">
+                    <div class="col-lg-8 col-lg-offset-4">
+                        {{#v-form-submit}}Submit{{/v-form-submit}}
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    {{/v-form}}
+</div>
+<div class="col-md-12">
+    <h2>Form markup</h2>
+    <div class="code-block">
+        {{#em-snippet lang="handlebars"}}
+\{{#v-form model=model submitAction="submit"}}
+  \{{#v-form-group property="name"}}
+    <label class="col-lg-4 control-label">Enter your name</label>
+    <div class="col-lg-8">
+      \{{input placeholder="Type your name or see an error" value=model.name class="form-control"}}
+    </div>
+  \{{/v-form-group}}
+  \{{#v-form-group property="text"}}
+    <label class="col-lg-4 control-label">Write a text</label>
+    <div class="col-lg-8">
+      \{{textarea class="form-control" value=model.text rows="3" placeholder="If you type less than 10 characters, you'll see an error"}}
+    </div>
+  \{{/v-form-group}}
+  \{{#v-form-group property="favouriteColor"}}
+    <label class="col-lg-4 control-label">Pick a color</label>
+    <div class="col-lg-8">
+      \{{col-pick-input placeholder="This better be a valid hex code!" class="form-control" value=model.favouriteColor colorScheme="default"}}
+    </div>
+  \{{/v-form-group}}
+  \{{#v-form-group property="favouriteNumber"}}
+    <label class="col-lg-4 control-label">Pick a number</label>
+    <div class="col-lg-8">
+      \{{select-2 optionValuePath="id" content=numbers value=model.favouriteNumber placeholder="Don't leave this empty!"}}
+    </div>
+  \{{/v-form-group}}
+  \{{#v-form-group property="pill"}}
+    <label class="col-lg-2 control-label">Pick a pill</label>
+    <div class="col-lg-10">
+      <div class="radio">
+        \{{#radio-button value="red" groupValue=model.pill}}
+          Red pill
+        \{{/radio-button}}
+      </div>
+      <div class="radio">
+        \{{#radio-button value="blue" groupValue=model.pill}}
+          Blue pill
+        \{{/radio-button}}
+      </div>
+    </div>
+  \{{/v-form-group}}
+  \{{#v-form-group property="accepted"}}
+    <label class="col-lg-2 control-label"></label>
+    <div class="col-lg-10">
+      <div class="checkbox">
+        <label>
+          \{{input type="checkbox" checked=model.accepted}} I accept everything
+        </label>
+      </div>
+    </div>
+  \{{/v-form-group}}
+  <div class="form-group">
+    <div class="col-lg-10 col-lg-offset-2">
+      \{{#v-form-submit}}Submit\{{/v-form-submit}}
+    </div>
+  </div>
+\{{/v-form}}
+        {{/em-snippet}}
+    </div>
+</div>
+<div class="col-md-12">
+    <h2>Model</h2>
+    <div class="code-block">
+        {{#em-snippet lang="javascript"}}
+import DS from 'ember-data';
+import Validator from '../mixins/model-validator';
+
+export default DS.Model.extend(Validator, {
+    name: DS.attr('string'),
+    text: DS.attr('string'),
+    pill: DS.attr('string'),
+    accepted: DS.attr('boolean'),
+    favouriteColor: DS.attr('string'),
+    favouriteNumber: DS.attr('number'),
+    address: DS.attr({defaultValue() {
+        return {};
+    }),
+
+    validations: {
+        name: {
+            presence: true
+        },
+        text: {
+            length: {minimum: 10}
+        },
+        favouriteNumber: {
+            inclusion: {in: [1, 2, 3, 4, 5, 6, 7, 8, 9]}
+        },
+        favouriteColor: {
+            color: true
+        },
+        accepted: {
+            acceptance: true
+        },
+        pill: {
+            inclusion: {in: [
+                'red',
+                'blue'
+            ]}
+        },
+        'address.country': {
+            presence: true
+        },
+        'address.city': {
+            presence: true
+        },
+        'address.street': {
+            presence: true
+        }
+    }
+});
+        {{/em-snippet}}
+    </div>
+</div>
+<div class="col-md-12">
+    <p>
+        This addon does not include any kind of inputs, so you have to put them in yourself.
+        Since validation is provided on model level by <a href="https://github.com/esbanarango/ember-model-validator">ember-model-validator</a>,
+        any field that acts like an input will be validated.
+    </p>
+    <p>
+        As you can see, inputs like
+        <a href="https://github.com/yapplabs/ember-radio-button">ember-radio-button</a>,
+        <a href="https://github.com/iStefo/ember-select-2">select-2</a> or
+        <a href='https://github.com/yapplabs/ember-colpick'>color picker</a> work with this addon perfectly.
+    </p>
+</div>

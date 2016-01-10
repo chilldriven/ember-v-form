@@ -6,6 +6,8 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+    this.route('sample-form');
+    this.route('components');
 });
 
 export default Router;

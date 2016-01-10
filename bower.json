@@ -9,10 +9,14 @@
     "jquery": "^2.1.4",
     "loader.js": "ember-cli/loader.js#3.5.0",
     "ember-mocha": "~0.8.8",
-    "bootstrap": "~3.3.5",
+    "bootstrap": "^3.3.5",
     "sinonjs": "~1.17.1",
     "colpick": "2.0.2",
     "select2": "3.5.2",
-    "select2-bootstrap": "~1.3.0"
+    "select2-bootstrap": "~1.3.0",
+    "bootswatch": "^3.3.5"
+  },
+  "devDependencies": {
+    "highlightjs": "~9.0.0"
   }
 }

@@ -1,0 +1,74 @@
+<div class="col-md-12">
+    <h2>Components</h2>
+    <p class="lead">
+        Addon includes three components: <code>v-form</code>, <code>v-form-group</code> and <code>v-form-submit</code>.
+        All of them have bootstrap CSS classes set by default, but you can change them by passing class attribute.
+    </p>
+    <div>
+        <h3>v-form</h3>
+        <p>Main component, model is passed here. Observes all property changes and validates fields.</p>
+        <h4>Code</h4>
+        {{#em-snippet lang="handlebars"}}\{{#v-form model=model}}form-groups, submit button, etc...\{{/v-form}}{{/em-snippet}}
+        <h4>Attributes</h4>
+        <table class="table-condensed">
+          <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Default</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>model</td>
+                  <td>Model that is being edited. <i>Note: has to have validations.</i></td>
+                  <td>-</td>
+              </tr>
+              <tr>
+                  <td>submitAction</td>
+                  <td>Action that will be triggered if your model passed all validations when form was submitted. Should be a string.</td>
+                  <td><code>"submit"</code></td>
+              </tr>
+              <tr>
+                  <td>disableInvalidSubmission</td>
+                  <td>Whether to apply <code>disabled</code> attribute to submit button.</td>
+                  <td><code>true</code></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+    <div>
+        <h3>v-form-group</h3>
+        <p>Form-group component. Observes <code>focusIn</code> and <code>focusOut</code> events and validates form on these events.</p>
+        <h4>Code</h4>
+        {{#em-snippet lang="handlebars"}}\{{#v-form-group property="property"}}inputs, labels, etc...\{{/v-form-group}}{{/em-snippet}}
+        <h4>Attributes</h4>
+        <table class="table-condensed">
+          <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Default</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>property</td>
+                  <td>Property (string) to validate. If you're validating <code>model.name</code>, value should be <code>"name"</code></td>
+                  <td>-</td>
+              </tr>
+              <tr>
+                  <td>errorClass</td>
+                  <td>Class to apply when group is invalid.</td>
+                  <td><code>"has-error"</code></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+    <div>
+        <h3>v-form-submit</h3>
+        <p>Just a simple submit button that triggers validation and submit action, that's all.</p>
+        <h4>Code</h4>
+        {{#em-snippet lang="handlebars"}}\{{#v-form-submit}}Submit text\{{/v-form-submit}}{{/em-snippet}}
+    </div>
+</div>

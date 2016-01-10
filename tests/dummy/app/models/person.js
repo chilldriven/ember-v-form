@@ -3,10 +3,11 @@ import Validator from '../mixins/model-validator';
 
 export default DS.Model.extend(Validator, {
     name: DS.attr('string'),
-    password: DS.attr('string'),
+    text: DS.attr('string'),
+    pill: DS.attr('string'),
     accepted: DS.attr('boolean'),
-    color: DS.attr('string'),
-    gender: DS.attr('string'),
+    favouriteColor: DS.attr('string'),
+    favouriteNumber: DS.attr('number'),
     address: DS.attr({defaultValue() {
         return {};
     }}),
@@ -15,17 +16,26 @@ export default DS.Model.extend(Validator, {
         name: {
             presence: true
         },
-        gender: {
-            inclusion: {in: ['m', 'f', 'n']}
+        text: {
+            length: {minimum: 10}
         },
-        password: {
-            presence: true
+        favouriteNumber: {
+            inclusion: {in: [1, 2, 3, 4, 5, 6, 7, 8, 9]}
         },
-        color: {
+        favouriteColor: {
             color: true
         },
         accepted: {
             acceptance: true
+        },
+        pill: {
+            inclusion: {in: [
+                'red',
+                'blue'
+            ]}
+        },
+        'address.country': {
+            presence: true
         },
         'address.city': {
             presence: true
