@@ -8,9 +8,6 @@ export default DS.Model.extend(Validator, {
     accepted: DS.attr('boolean'),
     favouriteColor: DS.attr('string'),
     favouriteNumber: DS.attr('number'),
-    address: DS.attr({defaultValue() {
-        return {};
-    }}),
 
     validations: {
         name: {
@@ -29,19 +26,7 @@ export default DS.Model.extend(Validator, {
             acceptance: true
         },
         pill: {
-            inclusion: {in: [
-                'red',
-                'blue'
-            ]}
-        },
-        'address.country': {
-            presence: true
-        },
-        'address.city': {
-            presence: true
-        },
-        'address.street': {
-            presence: true
+            inclusion: {in: ['red', 'blue'], message: 'pill has to be either red or blue'}
         }
     }
 });

@@ -10,5 +10,8 @@
 }
 
 .help-text .text-danger {
-    float: right;
+  display: block;
+  font-size: 12px;
+  font-style: italic;
+  text-indent: 27%;
 }

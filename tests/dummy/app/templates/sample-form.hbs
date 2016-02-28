@@ -4,31 +4,31 @@
         <fieldset>
             <div class="well">
                 {{#v-form-group property="name"}}
-                        <label class="col-lg-4 control-label">Enter your name</label>
+                        <label class="col-lg-3 control-label">Enter your name</label>
                         <div class="col-lg-8">
                             {{input placeholder="Type your name or see an error" value=model.name class="form-control"}}
                         </div>
                 {{/v-form-group}}
                 {{#v-form-group property="text"}}
-                        <label class="col-lg-4 control-label">Write a text</label>
+                        <label class="col-lg-3 control-label">Write a text</label>
                         <div class="col-lg-8">
                             {{textarea class="form-control" value=model.text rows="3" placeholder="If you type less than 10 characters, you'll see an error"}}
                         </div>
                 {{/v-form-group}}
                 {{#v-form-group property="favouriteColor"}}
-                        <label class="col-lg-4 control-label">Pick a color</label>
+                        <label class="col-lg-3 control-label">Pick a color</label>
                         <div class="col-lg-8">
                             {{col-pick-input placeholder="This better be a valid hex code!" class="form-control" value=model.favouriteColor colorScheme="default"}}
                         </div>
                 {{/v-form-group}}
                 {{#v-form-group property="favouriteNumber"}}
-                        <label class="col-lg-4 control-label">Pick a number</label>
+                        <label class="col-lg-3 control-label">Pick a number</label>
                         <div class="col-lg-8">
                             {{select-2 optionValuePath="id" content=numbers value=model.favouriteNumber placeholder="Don't leave this empty!"}}
                         </div>
                 {{/v-form-group}}
                 {{#v-form-group property="pill"}}
-                    <label class="col-lg-4 control-label">Pill</label>
+                    <label class="col-lg-3 control-label">Pill</label>
                     <div class="col-lg-8">
                         <div class="radio">
                             {{#radio-button value="red" groupValue=model.pill}}
@@ -40,10 +40,15 @@
                                 Blue pill
                             {{/radio-button}}
                         </div>
+                        <div class="radio">
+                            {{#radio-button value="green" groupValue=model.pill}}
+                                Green pill
+                            {{/radio-button}}
+                        </div>
                     </div>
                 {{/v-form-group}}
                 {{#v-form-group property="accepted"}}
-                    <label class="col-lg-4 control-label"></label>
+                    <label class="col-lg-3 control-label"></label>
                     <div class="col-lg-8">
                         <div class="checkbox">
                             <label>
@@ -53,7 +58,7 @@
                     </div>
                 {{/v-form-group}}
                 <div class="form-group">
-                    <div class="col-lg-8 col-lg-offset-4">
+                    <div class="col-lg-8 col-lg-offset-3">
                         {{#v-form-submit}}Submit{{/v-form-submit}}
                     </div>
                 </div>
@@ -67,32 +72,32 @@
         {{#em-snippet lang="handlebars"}}
 \{{#v-form model=model submitAction="submit"}}
   \{{#v-form-group property="name"}}
-    <label class="col-lg-4 control-label">Enter your name</label>
+    <label class="col-lg-3 control-label">Enter your name</label>
     <div class="col-lg-8">
       \{{input placeholder="Type your name or see an error" value=model.name class="form-control"}}
     </div>
   \{{/v-form-group}}
   \{{#v-form-group property="text"}}
-    <label class="col-lg-4 control-label">Write a text</label>
+    <label class="col-lg-3 control-label">Write a text</label>
     <div class="col-lg-8">
       \{{textarea class="form-control" value=model.text rows="3" placeholder="If you type less than 10 characters, you'll see an error"}}
     </div>
   \{{/v-form-group}}
   \{{#v-form-group property="favouriteColor"}}
-    <label class="col-lg-4 control-label">Pick a color</label>
+    <label class="col-lg-3 control-label">Pick a color</label>
     <div class="col-lg-8">
       \{{col-pick-input placeholder="This better be a valid hex code!" class="form-control" value=model.favouriteColor colorScheme="default"}}
     </div>
   \{{/v-form-group}}
   \{{#v-form-group property="favouriteNumber"}}
-    <label class="col-lg-4 control-label">Pick a number</label>
+    <label class="col-lg-3 control-label">Pick a number</label>
     <div class="col-lg-8">
       \{{select-2 optionValuePath="id" content=numbers value=model.favouriteNumber placeholder="Don't leave this empty!"}}
     </div>
   \{{/v-form-group}}
   \{{#v-form-group property="pill"}}
-    <label class="col-lg-2 control-label">Pick a pill</label>
-    <div class="col-lg-10">
+    <label class="col-lg-3 control-label">Pick a pill</label>
+    <div class="col-lg-8">
       <div class="radio">
         \{{#radio-button value="red" groupValue=model.pill}}
           Red pill
@@ -103,11 +108,16 @@
           Blue pill
         \{{/radio-button}}
       </div>
+      <div class="radio">
+        \{{#radio-button value="green" groupValue=model.pill}}
+          Green pill
+        \{{/radio-button}}
+      </div>
     </div>
   \{{/v-form-group}}
   \{{#v-form-group property="accepted"}}
-    <label class="col-lg-2 control-label"></label>
-    <div class="col-lg-10">
+    <label class="col-lg-3 control-label"></label>
+    <div class="col-lg-8">
       <div class="checkbox">
         <label>
           \{{input type="checkbox" checked=model.accepted}} I accept everything
@@ -116,7 +126,7 @@
     </div>
   \{{/v-form-group}}
   <div class="form-group">
-    <div class="col-lg-10 col-lg-offset-2">
+    <div class="col-lg-8 col-lg-offset-3">
       \{{#v-form-submit}}Submit\{{/v-form-submit}}
     </div>
   </div>
@@ -132,15 +142,12 @@ import DS from 'ember-data';
 import Validator from '../mixins/model-validator';
 
 export default DS.Model.extend(Validator, {
-    name: DS.attr('string'),
-    text: DS.attr('string'),
-    pill: DS.attr('string'),
-    accepted: DS.attr('boolean'),
-    favouriteColor: DS.attr('string'),
+    name:            DS.attr('string'),
+    text:            DS.attr('string'),
+    pill:            DS.attr('string'),
+    favouriteColor:  DS.attr('string'),
     favouriteNumber: DS.attr('number'),
-    address: DS.attr({defaultValue() {
-        return {};
-    }),
+    accepted:        DS.attr('boolean'),
 
     validations: {
         name: {
@@ -149,30 +156,18 @@ export default DS.Model.extend(Validator, {
         text: {
             length: {minimum: 10}
         },
+        favouriteColor: {
+            color: true
+        },
         favouriteNumber: {
             inclusion: {in: [1, 2, 3, 4, 5, 6, 7, 8, 9]}
         },
-        favouriteColor: {
-            color: true
+        pill: {
+            inclusion: {in: ['red', 'blue'], message: 'pill has to be either red or blue'}
         },
         accepted: {
             acceptance: true
         },
-        pill: {
-            inclusion: {in: [
-                'red',
-                'blue'
-            ]}
-        },
-        'address.country': {
-            presence: true
-        },
-        'address.city': {
-            presence: true
-        },
-        'address.street': {
-            presence: true
-        }
     }
 });
         {{/em-snippet}}
