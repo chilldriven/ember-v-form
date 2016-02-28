@@ -1,18 +1,17 @@
-# ember-v-form [![Build Status](https://travis-ci.org/cataline/ember-v-form.svg?branch=master)](https://travis-ci.org/cataline/ember-v-form) [![Dependency Status](https://gemnasium.com/cataline/ember-v-form.svg)](https://gemnasium.com/cataline/ember-v-form)
+# ember-v-form [![Build Status](https://travis-ci.org/cataline/ember-v-form.svg?branch=master)](https://travis-ci.org/cataline/ember-v-form) [![Dependency Status](https://gemnasium.com/cataline/ember-v-form.svg)](https://gemnasium.com/cataline/ember-v-form) [![Code Climate](https://codeclimate.com/github/cataline/ember-v-form/badges/gpa.svg)](https://codeclimate.com/github/cataline/ember-v-form) [![Ember Observer Score](http://emberobserver.com/badges/ember-v-form.svg)](http://emberobserver.com/addons/ember-v-form)
 
 A simple and highly customizable form validation addon, built on top of [ember-model-validator](https://github.com/esbanarango/ember-model-validator).
 
-[Docs](https://cataline.github.io/ember-v-form)
+## [Examples and docs](https://cataline.github.io/ember-v-form)
+
+## Installation
+
+```ember install ember-v-form```
 
 ## Dependencies
 * [ember-model-validator](https://github.com/esbanarango/ember-model-validator)
 * [ember-lodash](https://github.com/mike-north/ember-lodash)
 
-## Installation
-
-* `git clone` this repository
-* `npm install`
-* `bower install`
 
 ## Running
 
