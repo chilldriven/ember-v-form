@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import _ from 'lodash/lodash';
 
 export default Ember.Component.extend({
     tagName: 'div',
@@ -18,17 +17,15 @@ export default Ember.Component.extend({
     },
 
     didInsertElement() {
-        const props = this.extractProperties(),
-              vForm = this.get('parentView');
+        const props = this.extractProperties();
+        const vForm = this.get('parentView');
 
         vForm.get('properties').pushObject({
             elementId: this.get('elementId'),
-            properties: props
+            properties: props,
         });
 
-        _.each(props, (prop) => {
-            vForm.addObserver(`model.${prop}`, this, () => this.revalidate());
-        });
+        props.forEach(prop => vForm.addObserver(`model.${prop}`, this, () => this.revalidate()));
     },
 
     focusIn() {
@@ -50,16 +47,12 @@ export default Ember.Component.extend({
     },
 
     extractProperties() {
-        let properties = [this.get('property')];
-        const subproperties = properties[0].match(/\[[a-z, ]+\]/i);
-        if (subproperties) {
-            const [parentProp, childProps] = properties[0].split('.');
-            properties = _.map(_.words(subproperties[0], /\w+/g), word => {
-                if (childProps) return `${parentProp}.${word}`;
-                return word;
-            });
-        }
-
-        return properties;
-    }
+        const property = this.get('property');
+        const subproperties = property.match(/\[[a-z, ]+\]/i);
+        if (!subproperties) return [property];
+        const [parentProp, childProps] = property.split('.');
+        return subproperties[0].split(/[^\w]/i)
+                               .filter(Boolean)
+                               .map(word => childProps && `${parentProp}.${word}` || word);
+    },
 });

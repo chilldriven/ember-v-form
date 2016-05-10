@@ -10,8 +10,6 @@ A simple and highly customizable form validation addon, built on top of [ember-m
 
 ## Dependencies
 * [ember-model-validator](https://github.com/esbanarango/ember-model-validator)
-* [ember-lodash](https://github.com/mike-north/ember-lodash)
-
 
 ## Running
 

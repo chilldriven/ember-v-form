@@ -11,22 +11,22 @@ export default DS.Model.extend(Validator, {
 
     validations: {
         name: {
-            presence: true
+            presence: true,
         },
         text: {
-            length: {minimum: 10}
+            length: {minimum: 10},
         },
         favouriteNumber: {
-            inclusion: {in: [1, 2, 3, 4, 5, 6, 7, 8, 9]}
+            inclusion: {in: [1, 2, 3, 4, 5, 6, 7, 8, 9]},
         },
         favouriteColor: {
-            color: true
+            color: true,
         },
         accepted: {
-            acceptance: true
+            acceptance: true,
         },
         pill: {
-            inclusion: {in: ['red', 'blue'], message: 'pill has to be either red or blue'}
-        }
-    }
+            inclusion: {in: ['red', 'blue'], message: 'pill has to be either red or blue'},
+        },
+    },
 });

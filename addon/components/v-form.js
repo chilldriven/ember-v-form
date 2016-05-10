@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import _ from 'lodash/lodash';
 
 export default Ember.Component.extend({
     tagName: 'form',
@@ -10,8 +9,8 @@ export default Ember.Component.extend({
     properties: Ember.A([]),
     action: 'submit',
 
-    errors: Ember.computed.mapBy('model.errors.content', 'attribute'),
-    valid: Ember.computed.and('model.hasDirtyAttributes', 'model.isValidNow'),
+    errors:  Ember.computed.mapBy('model.errors', 'attribute'),
+    valid:   Ember.computed.and('model.hasDirtyAttributes', 'model.isValidNow'),
     invalid: Ember.computed.not('valid'),
 
     init() {
@@ -19,31 +18,31 @@ export default Ember.Component.extend({
         this._super(...arguments);
     },
 
-    notifyGroup(elementId, property, message='', revalidate=true) {
-        const childViews = this.get('childViews'),
-              group      = _.detect(childViews, c => c.get('elementId') === elementId);
+    notifyGroup(elementId, property, message = '', revalidate = true) {
+        const group = this.get('childViews').findBy('elementId', elementId);
         if (!message && !revalidate) message = this.getMessage(property);
-        if (revalidate)              message = this.validateProperty(elementId);
+        if (revalidate) message = this.validateProperty(elementId);
         group.set('message', message);
     },
 
     validateProperty(elementId) {
         const p = this.get('properties').findBy('elementId', elementId);
         this.get('model').validate({only: p.properties});
-        return this.getMessage(_.first(p.properties));
+        return this.getMessage(p.properties[0]);
     },
 
     getMessage(propertyKey) {
-        const errors      = this.get('model.errors.content'),
-              errorObject = _.detect(errors, 'attribute', propertyKey);
-        return _.get(errorObject, 'message[0]', '');
+        const errors = this.get('model.errors');
+        const errorObject = errors.findBy('attribute', propertyKey);
+        if (!errorObject) return '';
+        return Ember.get(errorObject, 'message')[0] || '';
     },
 
     clearAll() {
-        const childViews = this.get('childViews'),
-              properties = this.get('properties');
-        _.each(properties, p => {
-            const group = _.detect(childViews, c => c.get('elementId') === p.elementId);
+        const childViews = this.get('childViews');
+        const properties = this.get('properties');
+        properties.forEach(p => {
+            const group = childViews.findBy('elementId', p.elementId);
             if (group) group.clearErrors();
         });
     },
@@ -51,14 +50,14 @@ export default Ember.Component.extend({
     submit(e) {
         if (e) e.preventDefault();
         this.clearAll();
-        const bool   = this.get('model').validate(),
-              errors = this.get('model.errors.content');
+        const bool = this.get('model').validate();
+        const errors = this.get('model.errors');
         if (bool) return this.sendAction('submitAction');
-        _.each(errors, err => {
-            const elementId = _.result(_.detect(this.get('properties'), p => {
-                if (err) return _.contains(p.properties, err.attribute);
-            }), 'elementId');
+        errors.forEach(err => {
+            if (!err) return;
+            const property  = this.get('properties').find(p => Ember.A(p.properties).contains(err.attribute));
+            const elementId = Ember.get(property, 'elementId');
             if (elementId) this.notifyGroup(elementId, err.attribute, err.message, false);
         });
-    }
+    },
 });
