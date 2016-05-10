@@ -4,7 +4,6 @@
     "ember": "2.5.1",
     "ember-cli-shims": "0.1.1",
     "ember-cli-test-loader": "0.2.2",
-    "ember-load-initializers": "0.1.6",
     "jquery": "^2.1.4",
     "bootstrap": "~3.3.5"
   },
