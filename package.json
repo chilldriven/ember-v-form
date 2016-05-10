@@ -16,7 +16,7 @@
     "url": "https://github.com/cataline/ember-v-form"
   },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 6.0"
   },
   "author": "Anastasia Kucherova",
   "license": "MIT",
