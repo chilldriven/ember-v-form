@@ -1,23 +1,23 @@
-import { expect } from 'chai';
-import { describeComponent } from 'ember-mocha';
-import { describe, it, beforeEach } from 'mocha';
+import {expect} from 'chai';
+import {describeComponent} from 'ember-mocha';
+import {describe, it, beforeEach} from 'mocha';
 import Ember from 'ember';
 
 describeComponent(
   'v-form-group',
   'VFormGroupComponent',
-  {
+    {
       // Specify the other units that are required for this test
-      needs: ['component:v-form']
-  },
+        needs: ['component:v-form'],
+    },
   function() {
       describe('rendering', function() {
           beforeEach(function() {
               this.component = this.subject({
                   property: 'name',
                   parentView: Ember.Object.create({
-                      properties: Ember.A([])
-                  })
+                      properties: Ember.A([]),
+                  }),
               });
               expect(this.component._state).to.equal('preRender');
               this.render();
@@ -36,8 +36,8 @@ describeComponent(
                   property: 'name',
                   parentView: Ember.Object.create({
                       properties: Ember.A([]),
-                      model: Ember.Object.create({name: ''})
-                  })
+                      model: Ember.Object.create({name: ''}),
+                  }),
               });
               this.render();
 
@@ -52,8 +52,8 @@ describeComponent(
                   property: 'password',
                   parentView: Ember.Object.create({
                       properties: Ember.A([]),
-                      model: Ember.Object.create({password: ''})
-                  })
+                      model: Ember.Object.create({password: ''}),
+                  }),
               });
               this.render();
 
@@ -68,16 +68,16 @@ describeComponent(
                       properties: Ember.A([]),
                       model: Ember.Object.create({
                           password: '',
-                          passwordConfirmation: ''
-                      })
-                  })
+                          passwordConfirmation: '',
+                      }),
+                  }),
               });
               this.render();
               const parentView = this.component.get('parentView'),
-                    checks = [
-                        'password',
-                        'passwordConfirmation'
-                    ].map(p => parentView.hasObserverFor(`model.${p}`));
+                  checks = [
+                      'password',
+                      'passwordConfirmation',
+                  ].map(p => parentView.hasObserverFor(`model.${p}`));
               expect(checks.every(c => c)).to.be.ok;
           });
 
@@ -86,15 +86,15 @@ describeComponent(
                   property: 'address.[country, city]',
                   parentView: Ember.Object.create({
                       properties: Ember.A([]),
-                      model: Ember.Object.create({address: {}})
-                  })
+                      model: Ember.Object.create({address: {}}),
+                  }),
               });
               this.render();
               const parentView = this.component.get('parentView'),
-                    checks = [
-                        'address.country',
-                        'address.city'
-                    ].map(p => parentView.hasObserverFor(`model.${p}`));
+                  checks = [
+                      'address.country',
+                      'address.city',
+                  ].map(p => parentView.hasObserverFor(`model.${p}`));
               expect(checks.every(c => c)).to.be.ok;
           });
       });
@@ -105,17 +105,19 @@ describeComponent(
                   parentView: Ember.Object.create({
                       properties: Ember.A([]),
                       model: Ember.Object.create({
-                          name: ''
-                      })
+                          name: '',
+                      }),
                   }),
-                  property: 'name'
+                  property: 'name',
               });
               this.render();
           });
 
           describe('if field is valid', function() {
               beforeEach(function() {
-                  this.component.parentView.validateProperty = _ => {};
+                  this.component.parentView.validateProperty = () => {
+                      // noop
+                  };
 
                   Ember.run(() => this.component.revalidate());
               });
@@ -133,7 +135,7 @@ describeComponent(
 
           describe('if field is invalid', function() {
               beforeEach(function() {
-                  this.component.parentView.validateProperty = (a) => a;
+                  this.component.parentView.validateProperty = a => a;
                   Ember.run(() => this.component.revalidate());
               });
 

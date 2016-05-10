@@ -8,19 +8,19 @@ export default DS.Model.extend(Validator, {
     address: DS.attr(),
     validations: {
         name: {
-            presence: true
+            presence: true,
         },
         password: {
-            presence: true
+            presence: true,
         },
         accepted: {
-            acceptance: true
+            acceptance: true,
         },
         'address.city': {
-            presence: true
+            presence: true,
         },
         'address.street': {
-            presence: true
-        }
-    }
+            presence: true,
+        },
+    },
 });

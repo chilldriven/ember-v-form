@@ -8,5 +8,5 @@ export default Ember.Component.extend({
     disableInvalidSubmission: true,
 
     type: 'submit',
-    disabled: Ember.computed.and('disableInvalidSubmission', 'parentView.invalid')
+    disabled: Ember.computed.and('disableInvalidSubmission', 'parentView.invalid'),
 });

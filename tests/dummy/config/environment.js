@@ -1,7 +1,8 @@
 /* jshint node: true */
+/* eslint-env node */
 
 module.exports = function(environment) {
-    var ENV = {
+    const ENV = {
         modulePrefix: 'dummy',
         environment: environment,
         baseURL: '/',
@@ -10,13 +11,17 @@ module.exports = function(environment) {
             FEATURES: {
               // Here you can enable experimental features on an ember canary build
               // e.g. 'with-controller': true
-            }
+            },
         },
 
         APP: {
           // Here you can pass flags/options to your application instance
           // when it is created
-        }
+        },
+    };
+
+    ENV.contentSecurityPolicy = {
+        'script-src': '\'self\' \'unsafe-eval\' \'unsafe-inline\'',
     };
 
     if (environment === 'development') {
