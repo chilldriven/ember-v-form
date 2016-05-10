@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import _ from 'lodash/lodash';
 /* global hljs */
 export default Ember.Component.extend({
     tagName: 'pre',
@@ -10,5 +9,5 @@ export default Ember.Component.extend({
         Ember.$(this.get('element')).empty();
         console.log(highlighted);
         Ember.$(this.get('element')).html(highlighted.value);
-    }
+    },
 });

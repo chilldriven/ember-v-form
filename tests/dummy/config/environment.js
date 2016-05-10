@@ -8,7 +8,7 @@ module.exports = function(environment) {
         baseURL: '/',
         locationType: 'auto',
         emberHighlightJs: {
-            style: 'arta'
+            style: 'arta',
         },
         EmberENV: {
             FEATURES: {
@@ -24,7 +24,9 @@ module.exports = function(environment) {
     };
 
     ENV.contentSecurityPolicy = {
-        'script-src': '\'self\' \'unsafe-eval\' \'unsafe-inline\'',
+        'script-src': '\'self\' \'unsafe-eval\' \'unsafe-inline\' https://buttons.github.io',
+        'style-src': '\'self\' \'unsafe-inline\' https://buttons.github.io',
+        'frame-src': '\'self\' https://buttons.github.io',
     };
 
     if (environment === 'development') {

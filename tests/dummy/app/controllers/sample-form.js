@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import _ from 'lodash/lodash';
 
+/* eslint no-alert: 0 */
 export default Ember.Controller.extend({
     numbers: [
         {id: 1, text: 'I'},
@@ -11,13 +11,13 @@ export default Ember.Controller.extend({
         {id: 6, text: 'VI'},
         {id: 7, text: 'VII'},
         {id: 8, text: 'VIII'},
-        {id: 9, text: 'IX'}
+        {id: 9, text: 'IX'},
     ],
     separators: [',', ' ', '.'],
     actions: {
         submit() {
             window.alert('submitted');
-        }
+        },
     },
     sampleModel: `
     import DS from 'ember-data';
@@ -57,5 +57,5 @@ export default Ember.Controller.extend({
             }
         }
     });
-    `
+    `,
 });
