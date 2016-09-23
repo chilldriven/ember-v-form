@@ -25,7 +25,12 @@ export default Ember.Component.extend({
             properties: props,
         });
 
-        props.forEach(prop => vForm.addObserver(`model.${prop}`, this, () => this.revalidate()));
+        props.forEach(prop => vForm.addObserver(`model.${prop}`, this, () => {
+            if (this.isDestroying || this.isDestroyed) {
+                return;
+            }
+            this.revalidate();
+        }));
     },
 
     focusIn() {

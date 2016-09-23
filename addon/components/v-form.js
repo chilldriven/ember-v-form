@@ -56,8 +56,10 @@ export default Ember.Component.extend({
         errors.forEach(err => {
             if (!err) return;
             const property  = this.get('properties').find(p => Ember.A(p.properties).contains(err.attribute));
-            const elementId = Ember.get(property, 'elementId');
-            if (elementId) this.notifyGroup(elementId, err.attribute, err.message, false);
+            if (property) {
+                const elementId = Ember.get(property, 'elementId');
+                if (elementId) this.notifyGroup(elementId, err.attribute, err.message, false);
+            }
         });
     },
 });
